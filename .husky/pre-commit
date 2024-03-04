@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+yarn lint-staged
+
+#!/bin/bash
+# Protect main and development from accidental commits.
+echo -e "===\n>> Pre-commit Hook:: Checking branch name"
+branchName=$(git branch | grep '*' | sed 's/* //')
+
+if [ $branchName == 'main' ]
+then
+  echo -e "\n🚫 Commit directly to master branch is not allowed!\n" && exit 1
+fi
+
+if [ $branchName == 'development' ]
+then
+  echo -e "\n🚫 Cannot push to remote develop branch, please create your own branch and use PR." && exit 1
+fi
+
+echo -e ">> Finish checking branch name.\n==="
+
+
+FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
+[ -z "$FILES" ] && exit 0
+
+# Prettify all selected files
+echo "$FILES" | xargs ./node_modules/.bin/prettier --ignore-unknown --write
+
+# Add back the modified/prettified files to staging
+echo "$FILES" | xargs git add
+
+

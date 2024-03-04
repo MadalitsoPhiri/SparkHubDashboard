@@ -1,0 +1,56 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{html,js,jsx,ts,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#24225B',
+        secondary: '#033EB5',
+        warning: '#F44336',
+        success: '#3B8269',
+        blue: '#033EB5',
+        border: '#E6E8EB',
+        messenger: '#3B8269',
+        chat: '#EDEFF2',
+        mainGray: '#e6e8eb',
+        placeholder: '#7E8B99',
+        darkGray: '#C6CED6',
+        lightBlue: '#1068EF',
+        lightBlack: '#161518',
+        lightGreen: '#F1F9F6',
+        darkGreen: '#0E8157',
+        darkRed: '#EE1624',
+        lightRed: '#FEF6F6',
+        gray: {
+          25: '#F8F9FA',
+          50: '#DFE1E6',
+          100: '#EDEFF2',
+          150: '#ECEFF1',
+          200: '#FBFCFD',
+          300: '#C6CED6',
+          400: '#656971',
+          500: '#898D94',
+          600: '#5F5F61',
+        },
+
+        headerBgColor: 'var(--header-bg-color)',
+        borderColor: 'var(--border-color)',
+        btnColor: 'var(--btn-color)',
+        btnTextColor: 'var(--btn-txt-color)',
+        headerTextColor: 'var(--header-text-color)',
+        mainHoverColor: 'var(--main-hover-color)',
+      },
+      fontSize: {
+        sm: ['10px', { lineHeight: '18px' }],
+        md: ['14px', { lineHeight: '20px' }],
+        lg: ['16px', { lineHeight: '24px' }],
+        xl: ['24px', { lineHeight: '36px' }],
+      },
+      extend: {},
+    },
+  },
+  variants: {
+    extend: {},
+  },
+  plugins: [],
+};

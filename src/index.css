@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer components {
+  .table-style {
+    table-layout: fixed;
+    @apply w-full border-collapse no-scrollbar text-md;
+  }
+
+  .th {
+    @apply text-white text-left font-semibold;
+  }
+  .th:first-child {
+    @apply w-[30px];
+  }
+  .th:nth-child(2) {
+    @apply w-[300px];
+  }
+
+  .th:last-child {
+    @apply w-[80px];
+  }
+
+  .tr,
+  .td,
+  .th {
+    @apply py-2 px-2;
+  }
+
+  tr,
+  .td {
+    @apply py-1;
+  }
+
+  .tr,
+  td {
+    @apply border-[1px] border-gray-100;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter';
+  overflow: hidden;
+  scroll-behavior: smooth;
+  @apply bg-gray-100;
+}
+
+/* styles.css */
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar for Chrome, Safari, and Opera */
+}
+
+.no-scrollbar {
+  scrollbar-width: none; /* Hide the scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide the scrollbar for Internet Explorer and Edge */
+}
+
+.small-scrollbar::-webkit-scrollbar {
+  width: 5px; /* Width of the entire scrollbar */
+  height: 5px;
+}
+
+.small-scrollbar::-webkit-scrollbar-track {
+  background: #edf2f7; /* Color of the tracking area */
+}
+
+.small-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 20px; /* Roundness of the scroll thumb */
+  @apply bg-secondary/50;
+}
+
+.small-scrollbar {
+  scrollbar-width: auto; /* Hide the scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide the scrollbar for Internet Explorer and Edge */
+}
+
+@layer utilities {
+  @variants responsive {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+  }
+}
+
+.no-resize {
+  resize: none;
+}
+
+.input-disabled {
+  background-color: transparent !important;
+}
+.chat_multiline_text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+}
+.main {
+  height: 300px;
+}
+.dragndrop_area {
+  background-image: url('data:image/svg+xml, <svg width="586" height="140" viewBox="0 0 586 140" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="584" height="138" rx="3" fill="white" /><rect x="1" y="1" width="584" height="138" rx="3" stroke="%23E6E8EB" stroke-width="2" stroke-dasharray="8 8" /></svg>');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+a {
+  color: #033eb5 !important;
+}
+
+[type='checkbox'] {
+  width: 1.3rem;
+  height: 1.3rem;
+  vertical-align: middle;
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: 0;
+  outline: 0;
+  flex-grow: 0;
+  border-radius: 5px;
+  background-color: #ffffff;
+  transition: background-color 300ms;
+  cursor: pointer;
+
+  @apply text-secondary;
+}
+
+[type='checkbox']::before {
+  content: '';
+  color: transparent;
+  display: block;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+  border: 0;
+  background-color: transparent;
+  background-size: contain;
+  box-shadow: inset 0 0 2px 1.2px #ccd3d8;
+}
+
+/* Checked */
+
+[type='checkbox']:checked {
+  background-color: currentcolor;
+}
+
+[type='checkbox']:checked::before {
+  box-shadow: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath d='M15.88 8.29L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z' fill='%23fff'/%3E %3C/svg%3E");
+}
+
+/* Disabled */
+
+[type='checkbox']:disabled {
+  background-color: #ccd3d8;
+  opacity: 0.84;
+  cursor: not-allowed;
+}
+
+[type='checkbox']::-ms-check {
+  content: '';
+  color: transparent;
+  display: block;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+  border: 0;
+  background-color: transparent;
+  background-size: contain;
+  box-shadow: inset 0 0 0 1px #ccd3d8;
+}
+
+[type='checkbox']:checked::-ms-check {
+  box-shadow: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath d='M15.88 8.29L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z' fill='%23fff'/%3E %3C/svg%3E");
+}
+
+[type='checkbox']:not(:checked):hover {
+  box-shadow: 0 0 2px 2px rgba(170, 173, 175, 0.16) !important;
+}
+
+.notes_shadow {
+  border-radius: 4px !important;
+  border: 1px solid #dfe1e6 !important;
+  background: #fff !important;
+  box-shadow: 0px 1px 0px 0px rgba(17, 24, 28, 0.08) !important;
+  display: flex;
+  padding: 10px 12px;
+  align-items: center;
+  gap: 8px;
+  flex: 1 0 0;
+}
+
+#select_input_time_zone {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAMAAACtdX32AAAAdVBMVEUAAAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhMdQaAAAAJ3RSTlMAAAECAwQGBwsOFBwkJTg5RUZ4eYCHkJefpaytrsXGy8zW3+Do8vNn0bsyAAAAYElEQVR42tXROwJDQAAA0Ymw1p9kiT+L5P5HVEi3qJn2lcPjtIuzUIJ/rhIGy762N3XaThqMN1ZPALsZPEzG1x8LrFL77DHBnEMxBewz0fJ6LyFHTPL7xhwzWYrJ9z22AqmQBV757MHfAAAAAElFTkSuQmCC);
+  background-position: 100%;
+  background-repeat: no-repeat;
+  padding: 0.5rem;
+  border-radius: 0;
+}
+
+#sidebar_menu {
+  z-index: 999999 !important;
+}
+
+.edit-profile-input {
+  @apply rounded-[4px] capitalize  w-full flex-1 duration-100 ease-in-out  outline-none py-1 text-md focus:rounded-[4px] focus:border-2 focus:border-secondary text-black hover:border cursor-pointer;
+}
