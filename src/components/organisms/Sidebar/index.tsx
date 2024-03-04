@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Icon from '@/assets/Icons';
 import Icons from '@/assets/Icons/icons.json';
-import { ChatIcon, SMS } from '@/assets/Icons/inbox';
+import { ChatIcon, InboxIcon, SMS } from '@/assets/Icons/inbox';
 import Text from '@/components/atoms/Text';
 import Modal from '@/components/atoms/modal';
 import RouteNavItem from '@/components/molecules/RouteNav';
@@ -40,7 +40,7 @@ const Sidebar = () => {
     },
     {
       name: 'Inbox',
-      icon: <Icon icon={Icons.inbox} size={30} color='white' />,
+      icon: <InboxIcon />,
       path: routeNames.dashboard.inbox,
       children: [
         {
