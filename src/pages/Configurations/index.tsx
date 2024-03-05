@@ -2,6 +2,7 @@ import Spinner from '@/components/atoms/Spinner';
 import WidgetUi from '@/components/organisms/WidgetUi';
 import { useWidgetConfig } from '@/hooks/useWidgetConfig';
 import { WidgetConfigStore } from '@/state/WidgetConfigStore';
+import { pickTextColorBasedOnBgColorAdvanced } from '@/utils/index';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
@@ -16,7 +17,11 @@ const Configurations = () => {
       );
       document.documentElement.style.setProperty(
         '--header-text-color',
-        WidgetConfigStore.config.value.colors.header_text_color,
+        pickTextColorBasedOnBgColorAdvanced(
+          WidgetConfigStore.config.value.colors.header_bg_color,
+          '#FFFFFF',
+          '#000000',
+        ),
       );
       document.documentElement.style.setProperty(
         '--border-color',
@@ -28,7 +33,11 @@ const Configurations = () => {
       );
       document.documentElement.style.setProperty(
         '--btn-txt-color',
-        WidgetConfigStore.config.value.colors.btn_text_color,
+        pickTextColorBasedOnBgColorAdvanced(
+          WidgetConfigStore.config.value.colors.btn_color,
+          '#FFFFFF',
+          '#000000',
+        ),
       );
       document.documentElement.style.setProperty(
         '--main-hover-color',
