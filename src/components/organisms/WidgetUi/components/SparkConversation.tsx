@@ -1,8 +1,8 @@
 import { WidgetConfigStore } from '@/state/WidgetConfigStore';
 import { motion } from 'framer-motion';
-import { FC, useState } from 'react';
+import { FC, MouseEventHandler, useState } from 'react';
 const SparkConversation: FC<any> = ({ handleSendMesage }) => {
-  const [conversationCount] = useState<number>();
+  const [conversationCount] = useState<number>(0);
   return (
     <motion.div
       className='rounded-[8px] border border-solid border-border bg-white shadow-md w-full mb-[16px]'
@@ -39,7 +39,7 @@ const SparkConversation: FC<any> = ({ handleSendMesage }) => {
             </p>
             <div className='flex flex-row justify-start items-center'>
               <svg
-                className='text-btnColor w-[16px] h-[16px] mr-[8px]'
+                className='w-[16px] h-[16px] mr-[8px]'
                 fill='none'
                 stroke='currentColor'
                 viewBox='0 0 24 24'
@@ -59,14 +59,14 @@ const SparkConversation: FC<any> = ({ handleSendMesage }) => {
           </div>
         </div>
         <button
-          onClick={handleSendMesage}
+          onClick={handleSendMesage as MouseEventHandler<HTMLButtonElement>}
           className={`${
             conversationCount === 0 ? 'bg-btnColor' : 'transparent'
-          } ${'border-btnColor'} rounded-full border-[1.5px] flex flex-row justify-center items-center px-[28px] py-[10px]`}
+          } ${'border-btnColor'} rounded-full border-2 flex flex-row justify-center items-center px-[28px] py-[10px]`}
         >
           <svg
             className={`${
-              conversationCount === 0 ? 'text-[#FFFFFF]' : 'text-btnColor'
+              conversationCount === 0 ? `text-btnTextColor` : 'text-btnColor'
             } w-[24px] h-[24px] transform rotate-90`}
             fill='currentColor'
             viewBox='0 0 20 20'
@@ -76,7 +76,7 @@ const SparkConversation: FC<any> = ({ handleSendMesage }) => {
           </svg>
           <p
             className={`${
-              conversationCount === 0 ? 'text-[#FFFFFF]' : 'text-btnColor'
+              conversationCount === 0 ? `text-btnTextColor` : 'text-btnColor'
             } ml-[12px] text-[14px] leading-[20px]`}
           >
             Send us a message
