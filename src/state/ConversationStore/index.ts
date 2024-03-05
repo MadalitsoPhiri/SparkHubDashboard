@@ -22,6 +22,8 @@ export class ConversationStore {
   search_conversations: Array<any> = [];
   play_notification = false;
   closed_conversations: Array<any> = [];
+  open_conversations_count = 0;
+  closed_conversations_count = 0;
   upload_queue: Array<any> = [];
   upload_state = {
     progress: 0.0,
@@ -76,6 +78,12 @@ export class ConversationStore {
   }
   set_selected_conversation_id(id: string | null) {
     this.selected_conversation_id = id;
+  }
+  set_open_conversations_count(newVal: number) {
+    this.open_conversations_count = newVal;
+  }
+  set_closed_conversations_count(newVal: number) {
+    this.closed_conversations_count = newVal;
   }
   set_fetching_messages(payload: any) {
     const { conversation_id, is_fetching } = payload;
@@ -375,6 +383,10 @@ export class ConversationStore {
         attachments_uploaded: true,
       });
     }
+
+    ConStore.set_open_conversations_count(
+      ConStore.open_conversations_count + 1,
+    );
   }
   update_conversation(payload: any) {
     const { conversation } = payload;
@@ -402,11 +414,13 @@ export class ConversationStore {
     if (!(payload?.conversations?.length > 0)) {
       this.cons?.clear();
       this.open_conversations = [];
+      this.set_open_conversations_count(0);
 
       return;
     }
 
     const conversations = payload.conversations ?? [];
+    this.set_open_conversations_count(payload?.count);
 
     conversations.forEach((con: any) => {
       this.cons.set(con._id, {
@@ -476,8 +490,13 @@ export class ConversationStore {
   }
   get_closed_conversations_successful(payload: any) {
     this.fetching_closed_conversations = false;
+
     //TODO:process conversations here
     const conversations = payload?.conversations ?? [];
+    ConStore.set_closed_conversations_count(
+      payload?.count ?? ConStore.closed_conversations_count,
+    );
+
     this.lastClosedConversationResponse = payload;
     conversations.forEach((con: any) => {
       this.cons.set(con._id, {
@@ -518,9 +537,11 @@ export class ConversationStore {
   }
   clear_open_conversations() {
     this.open_conversations = [];
+    this.set_open_conversations_count(0);
   }
   clear_closed_conversations() {
     this.closed_conversations = [];
+    this.set_closed_conversations_count(0);
   }
 
   update_typing_status(payload: any) {

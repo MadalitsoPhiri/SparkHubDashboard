@@ -90,13 +90,13 @@ const Overview = () => {
           <Tile name='Average response time' content='- -' borderTop={true} />
           <Tile
             name='Open'
-            content={`${ConStore.open_conversations.length} conversations`}
+            content={`${ConStore.open_conversations_count} conversations`}
             borderTop={true}
             borderLeft={true}
           />
           <Tile
             name='Archived'
-            content={`${ConStore.closed_conversations.length} conversations`}
+            content={`${ConStore.closed_conversations_count} conversations`}
             borderTop={true}
             borderLeft={true}
             borderRight={true}
