@@ -19,32 +19,55 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
 
   return (
     <div className='w-full auto flex flex-col h-full '>
-      <div className='relative rounded-[4px] h-[152px]  w-full flex flex-col justify-center items-center  border-[2px] border-[#E6E8EB] border-dashed bg-white my-[24px]'>
-        <label
-          htmlFor='logo'
-          className='relative  flex flex-col justify-center items-center  cursor-pointer'
-        >
-          <UploadIcon />
-          <p className='text-[14px] font-[500] text-[#161518] mt-[8px] mb-[6px]'>
-            <span className='text-[14px] font-[500] text-[#1068EF]'>
-              Upload a logo{' '}
-            </span>{' '}
-            or drag and drop
-          </p>
-          <p className='font-[400] text-[12px] text-[#656971]'>
-            The resolution of the logo must be 50x100
-          </p>
-          <input
-            type='file'
-            id='logo'
-            disabled={uploading}
-            onChange={handleUpload}
-            className='absolute left-0 right-0 w-[20px] invisible'
-          />
-        </label>
+      <div className='relative rounded-[4px] h-[170px]  w-full flex flex-col justify-center items-center  border-[2px] border-[#E6E8EB] border-dashed bg-white my-[24px]'>
+        {WidgetConfigStore.config.value.images.brand_logo_url ? (
+          <>
+            <img
+              className='h-[70%]'
+              src={WidgetConfigStore.config.value.images.brand_logo_url}
+              alt='Branding'
+            />
+            <div
+              className={`px-4 justify-center flex flex-row items-center border border-[#DFE1E6]  shadow-sm rounded-[4px] h-[32px] cursor-pointer`}
+              onClick={() => {
+                WidgetConfigStore.updateBrandLogoUrl('');
+              }}
+            >
+              <p className='text-[14px] 3xl:text-[13.5px] 2xl:text-[12.5px] font-medium text-[#161518] '>
+                Remove
+              </p>
+            </div>
+          </>
+        ) : (
+          <label
+            htmlFor='logo'
+            className='relative  flex flex-col justify-center items-center  cursor-pointer'
+          >
+            <UploadIcon />
+            <p className='text-[14px] font-[500] text-[#161518] mt-[8px] mb-[6px]'>
+              <span className='text-[14px] font-[500] text-[#1068EF]'>
+                Upload a logo{' '}
+              </span>{' '}
+              or drag and drop
+            </p>
+            <p className='font-[400] text-[12px] text-[#656971]'>
+              The resolution of the logo must be 50x100
+            </p>
+            <input
+              type='file'
+              id='logo'
+              disabled={uploading}
+              onChange={handleUpload}
+              className='absolute left-0 right-0 w-[20px] invisible'
+            />
+          </label>
+        )}
       </div>
       <div className='flex flex-row w-full mb-[24px]'>
-        <div className='flex flex-col mt-[15px] mr-[24px] flex-1'>
+        <label
+          htmlFor='background-color'
+          className='flex flex-col mt-[15px] mr-[24px] flex-1'
+        >
           <span className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90'>
             Background color
           </span>
@@ -53,8 +76,8 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               <input
                 onChange={handleHeaderColorInputChange}
                 type='color'
-                id='head'
-                name='head'
+                id='background-color'
+                name='background-color'
                 value={WidgetConfigStore.config.value?.colors.header_bg_color}
                 className='opacity-0 rounded-full w-full h-full bg-transparent'
               />
@@ -66,9 +89,12 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               className='w-full h-full outline-none uppercase  border-0  bg-transparent font-[500] text-[14px]'
             />
           </div>
-        </div>
+        </label>
 
-        <div className='flex flex-col mt-[15px]  flex-1'>
+        <label
+          htmlFor='header-text-color'
+          className='flex flex-col mt-[15px]  flex-1'
+        >
           <span className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90'>
             Header text color
           </span>
@@ -77,8 +103,8 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               <input
                 onChange={handleHeaderTextColorInputChange}
                 type='color'
-                id='head'
-                name='head'
+                id='header-text-color'
+                name='header-text-color'
                 value={WidgetConfigStore.config.value?.colors.header_text_color}
                 className='opacity-0 rounded-full w-full h-full bg-transparent'
               />
@@ -90,10 +116,13 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               className='w-full h-full outline-none uppercase  border-0  bg-transparent font-[500] text-[14px]'
             />
           </div>
-        </div>
+        </label>
       </div>
       <div className='flex flex-row w-full mb-6'>
-        <div className='flex flex-col mt-[15px] mr-[24px] flex-1'>
+        <label
+          htmlFor='border-color'
+          className='flex flex-col mt-[15px] mr-[24px] flex-1'
+        >
           <span className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90'>
             Border color
           </span>
@@ -102,8 +131,8 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               <input
                 onChange={handleBorderColorInputChange}
                 type='color'
-                id='head'
-                name='head'
+                id='border-color'
+                name='border-color'
                 value={WidgetConfigStore.config.value?.colors.border_color}
                 className='opacity-0 rounded-full w-full h-full bg-transparent'
               />
@@ -115,9 +144,9 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               className='w-full h-full outline-none uppercase  border-0  bg-transparent font-[500] text-[14px]'
             />
           </div>
-        </div>
+        </label>
 
-        <div className='flex flex-col mt-[15px]  flex-1'>
+        <label htmlFor='btn-color' className='flex flex-col mt-[15px]  flex-1'>
           <span className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90'>
             Button color
           </span>
@@ -126,8 +155,8 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               <input
                 onChange={handleButtonColorInputChange}
                 type='color'
-                id='head'
-                name='head'
+                id='btn-color'
+                name='btn-color'
                 value={WidgetConfigStore.config.value?.colors.btn_color}
                 className='opacity-0 rounded-full w-full h-full bg-transparent'
               />
@@ -139,7 +168,7 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               className='w-full h-full outline-none uppercase  border-0  bg-transparent font-[500] text-[14px]'
             />
           </div>
-        </div>
+        </label>
       </div>
       <div className='flex mt-[28px] w-full justify-end space-x-4'>
         <Button
