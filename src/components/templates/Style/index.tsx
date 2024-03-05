@@ -30,7 +30,7 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
             <div
               className={`px-4 justify-center flex flex-row items-center border border-[#DFE1E6]  shadow-sm rounded-[4px] h-[32px] cursor-pointer`}
               onClick={() => {
-                WidgetConfigStore.updateBrandLogoUrl('');
+                WidgetConfigStore.removeBrandLogoUrl();
               }}
             >
               <p className='text-[14px] 3xl:text-[13.5px] 2xl:text-[12.5px] font-medium text-[#161518] '>
