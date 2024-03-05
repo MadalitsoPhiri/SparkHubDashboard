@@ -44,7 +44,10 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
         </label>
       </div>
       <div className='flex flex-row w-full mb-[24px]'>
-        <div className='flex flex-col mt-[15px] mr-[24px] flex-1'>
+        <label
+          htmlFor='background-color'
+          className='flex flex-col mt-[15px] mr-[24px] flex-1'
+        >
           <span className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90'>
             Background color
           </span>
@@ -53,8 +56,8 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               <input
                 onChange={handleHeaderColorInputChange}
                 type='color'
-                id='head'
-                name='head'
+                id='background-color'
+                name='background-color'
                 value={WidgetConfigStore.config.value?.colors.header_bg_color}
                 className='opacity-0 rounded-full w-full h-full bg-transparent'
               />
@@ -66,9 +69,12 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               className='w-full h-full outline-none uppercase  border-0  bg-transparent font-[500] text-[14px]'
             />
           </div>
-        </div>
+        </label>
 
-        <div className='flex flex-col mt-[15px]  flex-1'>
+        <label
+          htmlFor='header-text-color'
+          className='flex flex-col mt-[15px]  flex-1'
+        >
           <span className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90'>
             Header text color
           </span>
@@ -77,8 +83,8 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               <input
                 onChange={handleHeaderTextColorInputChange}
                 type='color'
-                id='head'
-                name='head'
+                id='header-text-color'
+                name='header-text-color'
                 value={WidgetConfigStore.config.value?.colors.header_text_color}
                 className='opacity-0 rounded-full w-full h-full bg-transparent'
               />
@@ -90,10 +96,13 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               className='w-full h-full outline-none uppercase  border-0  bg-transparent font-[500] text-[14px]'
             />
           </div>
-        </div>
+        </label>
       </div>
       <div className='flex flex-row w-full mb-6'>
-        <div className='flex flex-col mt-[15px] mr-[24px] flex-1'>
+        <label
+          htmlFor='border-color'
+          className='flex flex-col mt-[15px] mr-[24px] flex-1'
+        >
           <span className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90'>
             Border color
           </span>
@@ -102,8 +111,8 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               <input
                 onChange={handleBorderColorInputChange}
                 type='color'
-                id='head'
-                name='head'
+                id='border-color'
+                name='border-color'
                 value={WidgetConfigStore.config.value?.colors.border_color}
                 className='opacity-0 rounded-full w-full h-full bg-transparent'
               />
@@ -115,9 +124,9 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               className='w-full h-full outline-none uppercase  border-0  bg-transparent font-[500] text-[14px]'
             />
           </div>
-        </div>
+        </label>
 
-        <div className='flex flex-col mt-[15px]  flex-1'>
+        <label htmlFor='btn-color' className='flex flex-col mt-[15px]  flex-1'>
           <span className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90'>
             Button color
           </span>
@@ -126,8 +135,8 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               <input
                 onChange={handleButtonColorInputChange}
                 type='color'
-                id='head'
-                name='head'
+                id='btn-color'
+                name='btn-color'
                 value={WidgetConfigStore.config.value?.colors.btn_color}
                 className='opacity-0 rounded-full w-full h-full bg-transparent'
               />
@@ -139,7 +148,7 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               className='w-full h-full outline-none uppercase  border-0  bg-transparent font-[500] text-[14px]'
             />
           </div>
-        </div>
+        </label>
       </div>
       <div className='flex mt-[28px] w-full justify-end space-x-4'>
         <Button
