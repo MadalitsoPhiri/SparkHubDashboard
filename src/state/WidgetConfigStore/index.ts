@@ -27,6 +27,7 @@ class WidgetConfigurationStore {
     is_editing_added_spark_gpt_question: false,
     active_spark_gpt_question_index: null,
   };
+  old_brand_logo_url = '';
   constructor() {
     makeAutoObservable(this);
   }
@@ -153,6 +154,14 @@ class WidgetConfigurationStore {
   updateBrandLogoUrl(payload: any) {
     if (this.config.value) {
       this.config.value.images.brand_logo_url = payload;
+      this.old_brand_logo_url = '';
+    }
+  }
+
+  removeBrandLogoUrl() {
+    if (this.config.value) {
+      this.old_brand_logo_url = this.config.value.images.brand_logo_url;
+      this.config.value.images.brand_logo_url = '';
     }
   }
 
