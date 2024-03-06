@@ -50,6 +50,10 @@ export const SOCKET_EVENT_NAMES = {
   CREATE_USER_EXTERNAL_LINK: 'create_user_external_link',
   GET_USER_EXTERNAL_LINKS: 'get_user_external_links',
 
+  // STORAGE
+  UPLOAD_FILE: 'upload',
+  DELETE_FILE: 'delete_file',
+
   // CUSTOM FIELD
   CREATE_CUSTOM_FIELD: 'create_custom_field',
   GET_CUSTOM_FIELDS: 'get_custom_fields',
