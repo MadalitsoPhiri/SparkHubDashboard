@@ -46,10 +46,10 @@ const SparkyHome = () => {
               <DefaultSparkChatImageLogo />
             )}
 
-            <p className='text-headerTextColor font-normal text-[20px] mb-[16px]'>
+            <p className='text-headerTextColorActual font-normal text-[20px] mb-[16px]'>
               {WidgetConfigStore.config.value.greetings.header.main}
             </p>
-            <p className='text-headerTextColor font-extralight text-[13px]'>
+            <p className='text-headerTextColorActual font-extralight text-[13px]'>
               {WidgetConfigStore.config.value.greetings.header.description}
             </p>
           </div>
