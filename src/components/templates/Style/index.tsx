@@ -23,7 +23,7 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
         {WidgetConfigStore.config.value.images.brand_logo_url ? (
           <>
             <img
-              className='h-[100%] mb-[1rem]'
+              className='h-[14vh] mb-[1rem]'
               src={WidgetConfigStore.config.value.images.brand_logo_url}
               alt='Branding'
             />
