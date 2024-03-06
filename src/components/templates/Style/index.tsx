@@ -19,24 +19,24 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
 
   return (
     <div className='w-full auto flex flex-col h-full '>
-      <div className='relative rounded-[4px] h-[170px]  w-full flex flex-col justify-center items-center  border-[2px] border-[#E6E8EB] border-dashed bg-white my-[24px]'>
+      <div className='relative rounded-[4px] h-[auto] py-[2rem] w-full flex flex-col justify-center items-center  border-[2px] border-[#E6E8EB] border-dashed bg-white my-[24px]'>
         {WidgetConfigStore.config.value.images.brand_logo_url ? (
           <>
             <img
-              className='h-[70%]'
+              className='h-[100%] mb-[1rem]'
               src={WidgetConfigStore.config.value.images.brand_logo_url}
               alt='Branding'
             />
-            <div
-              className={`px-4 justify-center flex flex-row items-center border border-[#DFE1E6]  shadow-sm rounded-[4px] h-[32px] cursor-pointer`}
+            <Button
+              type='button'
+              text='Remove'
+              size='sm'
+              disabled={uploading}
               onClick={() => {
                 WidgetConfigStore.removeBrandLogoUrl();
               }}
-            >
-              <p className='text-[14px] 3xl:text-[13.5px] 2xl:text-[12.5px] font-medium text-[#161518] '>
-                Remove
-              </p>
-            </div>
+              variant='outline'
+            />
           </>
         ) : (
           <label
