@@ -7,45 +7,12 @@ import { WidgetConfigStore } from '@/state/WidgetConfigStore';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { WeeklyView } from '@/components/templates/WeeklyView';
-import { pickTextColorBasedOnBgColorAdvanced } from '@/utils/index';
+import { setCSSVariables } from '@/utils/index';
 
 const Home = () => {
   const { get_widget_config } = useWidgetConfig();
   useEffect(() => {
-    if (WidgetConfigStore.config.value) {
-      document.documentElement.style.setProperty(
-        '--header-bg-color',
-        WidgetConfigStore.config.value.colors.header_bg_color,
-      );
-      document.documentElement.style.setProperty(
-        '--header-text-color',
-        pickTextColorBasedOnBgColorAdvanced(
-          WidgetConfigStore.config.value.colors.header_bg_color,
-          '#FFFFFF',
-          '#000000',
-        ),
-      );
-      document.documentElement.style.setProperty(
-        '--border-color',
-        WidgetConfigStore.config.value.colors.border_color,
-      );
-      document.documentElement.style.setProperty(
-        '--btn-color',
-        WidgetConfigStore.config.value.colors.btn_color,
-      );
-      document.documentElement.style.setProperty(
-        '--btn-txt-color',
-        pickTextColorBasedOnBgColorAdvanced(
-          WidgetConfigStore.config.value.colors.btn_color,
-          '#FFFFFF',
-          '#000000',
-        ),
-      );
-      document.documentElement.style.setProperty(
-        '--main-hover-color',
-        `${WidgetConfigStore.config.value.colors.header_bg_color}20`,
-      );
-    }
+    setCSSVariables();
   }, [
     WidgetConfigStore.config.value?.colors.header_bg_color,
     WidgetConfigStore.config.value?.colors.header_text_color,
