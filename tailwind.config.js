@@ -38,6 +38,8 @@ export default {
         btnColor: 'var(--btn-color)',
         btnTextColor: 'var(--btn-txt-color)',
         headerTextColor: 'var(--header-text-color)',
+        headerTextColorActual: 'var(--header-text-color-actual)',
+        chevronColor: 'var(--chevron-color)',
         mainHoverColor: 'var(--main-hover-color)',
       },
       fontSize: {
