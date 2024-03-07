@@ -3,8 +3,35 @@ import { AuthStore } from '@/state/AuthenticationStore';
 import { WidgetConfigStore } from '@/state/WidgetConfigStore';
 
 export const useWidgetConfig = () => {
-  const publish = () => {
+  const publish = async () => {
     WidgetConfigStore.publishLoading();
+
+    if (WidgetConfigStore.old_brand_logo_url) {
+      const splitUpURL = WidgetConfigStore.old_brand_logo_url.split(
+        '/',
+      ) as string[];
+      const file_name = splitUpURL[splitUpURL.length - 1];
+
+      await new Promise((resolve, reject) => {
+        AuthStore.socket?.emit(
+          SOCKET_EVENT_NAMES.DELETE_FILE,
+          {
+            event_name: SOCKET_EVENT_NAMES.DELETE_FILE,
+            data: {
+              file_name,
+            },
+          },
+          (val: any) => {
+            if (val.error) {
+              reject(val);
+            } else {
+              resolve(val);
+            }
+          },
+        );
+      });
+    }
+
     const payload = WidgetConfigStore.config.value;
 
     AuthStore.socket?.emit(

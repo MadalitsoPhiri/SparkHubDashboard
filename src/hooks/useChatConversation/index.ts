@@ -101,17 +101,12 @@ export const useChatConversation = () => {
   const get_closed_conversations = (filter = {}) => {
     ConStore.set_closed_fetching_conversations(true);
 
-    const lastClosedConversationResponse =
-      ConStore.lastClosedConversationResponse;
-
     AuthStore.socket?.emit(
       SOCKET_EVENT_NAMES.GET_CONVERSATIONS,
       {
         event_name: SOCKET_EVENT_NAMES.GET_CONVERSATIONS,
         data: {
-          page: lastClosedConversationResponse?.page
-            ? lastClosedConversationResponse.page + 1
-            : 1,
+          page: 1,
           size: 10,
           status: CONVERSATION_STATUS.CLOSED,
           ...filter,
@@ -139,6 +134,23 @@ export const useChatConversation = () => {
       (response: any) => {
         if (response.data) {
           ConStore.update_conversation({ conversation: response.data });
+
+          if (response.data?.status === CONVERSATION_STATUS.CLOSED) {
+            ConStore.set_closed_conversations_count(
+              ConStore.closed_conversations_count + 1,
+            );
+            ConStore.set_open_conversations_count(
+              ConStore.open_conversations_count - 1,
+            );
+          }
+          if (response.data?.status === CONVERSATION_STATUS.OPEN) {
+            ConStore.set_open_conversations_count(
+              ConStore.open_conversations_count + 1,
+            );
+            ConStore.set_closed_conversations_count(
+              ConStore.closed_conversations_count - 1,
+            );
+          }
         }
 
         ConStore.set_updating_convo({

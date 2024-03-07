@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Icon from '@/assets/Icons';
 import Icons from '@/assets/Icons/icons.json';
-import { ChatIcon, InboxIcon, SMS } from '@/assets/Icons/inbox';
+import { ChatIcon, SMS } from '@/assets/Icons/inbox';
 import Text from '@/components/atoms/Text';
 import Modal from '@/components/atoms/modal';
 import RouteNavItem from '@/components/molecules/RouteNav';
@@ -18,6 +18,7 @@ import { HiOutlineHome } from 'react-icons/hi2';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { ConStore } from '@/state/ConversationStore';
+import { InboxIcon } from '@/components/atoms/Icons/InboxIcon';
 
 const Sidebar = () => {
   const { createList, getLists, closeModal, openModal, open } = useList();

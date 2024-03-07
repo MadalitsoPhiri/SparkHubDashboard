@@ -19,29 +19,49 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
 
   return (
     <div className='w-full auto flex flex-col h-full '>
-      <div className='relative rounded-[4px] h-[152px]  w-full flex flex-col justify-center items-center  border-[2px] border-[#E6E8EB] border-dashed bg-white my-[24px]'>
-        <label
-          htmlFor='logo'
-          className='relative  flex flex-col justify-center items-center  cursor-pointer'
-        >
-          <UploadIcon />
-          <p className='text-[14px] font-[500] text-[#161518] mt-[8px] mb-[6px]'>
-            <span className='text-[14px] font-[500] text-[#1068EF]'>
-              Upload a logo{' '}
-            </span>{' '}
-            or drag and drop
-          </p>
-          <p className='font-[400] text-[12px] text-[#656971]'>
-            The resolution of the logo must be 50x100
-          </p>
-          <input
-            type='file'
-            id='logo'
-            disabled={uploading}
-            onChange={handleUpload}
-            className='absolute left-0 right-0 w-[20px] invisible'
-          />
-        </label>
+      <div className='relative rounded-[4px] h-[auto] py-[2rem] w-full flex flex-col justify-center items-center  border-[2px] border-[#E6E8EB] border-dashed bg-white my-[24px]'>
+        {WidgetConfigStore.config.value.images.brand_logo_url ? (
+          <>
+            <img
+              className='h-[14vh] mb-[1rem]'
+              src={WidgetConfigStore.config.value.images.brand_logo_url}
+              alt='Branding'
+            />
+            <Button
+              type='button'
+              text='Remove'
+              size='sm'
+              disabled={uploading}
+              onClick={() => {
+                WidgetConfigStore.removeBrandLogoUrl();
+              }}
+              variant='outline'
+            />
+          </>
+        ) : (
+          <label
+            htmlFor='logo'
+            className='relative  flex flex-col justify-center items-center  cursor-pointer'
+          >
+            <UploadIcon />
+            <p className='text-[14px] font-[500] text-[#161518] mt-[8px] mb-[6px]'>
+              <span className='text-[14px] font-[500] text-[#1068EF]'>
+                Upload a logo{' '}
+              </span>{' '}
+              or drag and drop
+            </p>
+            <p className='font-[400] text-[12px] text-[#656971]'>
+              The resolution of the logo must be 50x100
+            </p>
+            <input
+              type='file'
+              id='logo'
+              disabled={uploading}
+              onChange={handleUpload}
+              className='absolute left-0 right-0 w-[20px] invisible'
+            />
+          </label>
+        )}
       </div>
       <div className='flex flex-row w-full mb-[24px]'>
         <div className='flex flex-col mt-[15px] mr-[24px] flex-1'>
