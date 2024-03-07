@@ -44,13 +44,13 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
         </label>
       </div>
       <div className='flex flex-row w-full mb-[24px]'>
-        <label
-          htmlFor='background-color'
-          className='flex flex-col mt-[15px] mr-[24px] flex-1'
-        >
-          <span className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90'>
+        <div className='flex flex-col mt-[15px] mr-[24px] flex-1'>
+          <label
+            htmlFor='background-color'
+            className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90 w-[fit-content]'
+          >
             Background color
-          </span>
+          </label>
           <div className='rounded-[4px] border-gray-300 bg-white border-[1px] border-b-[2px] flex  items-center justify-center h-[40px] font-medium p-3'>
             <div className='rounded-full bg-headerBgColor w-[16px] h-[16px] shrink-0 border   mr-[8px]'>
               <input
@@ -69,15 +69,15 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               className='w-full h-full outline-none uppercase  border-0  bg-transparent font-[500] text-[14px]'
             />
           </div>
-        </label>
+        </div>
 
-        <label
-          htmlFor='header-text-color'
-          className='flex flex-col mt-[15px]  flex-1'
-        >
-          <span className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90'>
+        <div className='flex flex-col mt-[15px]  flex-1'>
+          <label
+            htmlFor='header-text-color'
+            className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90 w-[fit-content]'
+          >
             Header text color
-          </span>
+          </label>
           <div className='rounded-[4px] border-gray-300 bg-white border-[1px] border-b-[2px] flex  items-center justify-center h-[40px] font-medium p-3'>
             <div className='rounded-full  bg-headerTextColor w-[16px] h-[16px] shrink-0 border  border-gray-300 mr-[8px]'>
               <input
@@ -96,16 +96,16 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               className='w-full h-full outline-none uppercase  border-0  bg-transparent font-[500] text-[14px]'
             />
           </div>
-        </label>
+        </div>
       </div>
       <div className='flex flex-row w-full mb-6'>
-        <label
-          htmlFor='border-color'
-          className='flex flex-col mt-[15px] mr-[24px] flex-1'
-        >
-          <span className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90'>
+        <div className='flex flex-col mt-[15px] mr-[24px] flex-1'>
+          <label
+            htmlFor='border-color'
+            className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90 w-[fit-content]'
+          >
             Border color
-          </span>
+          </label>
           <div className='rounded-[4px] border-gray-300 bg-white border-[1px] border-b-[2px] flex  items-center justify-center h-[40px] font-medium p-3'>
             <div className='rounded-full bg-borderColor w-[16px] h-[16px] shrink-0 border   mr-[8px]'>
               <input
@@ -124,12 +124,15 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               className='w-full h-full outline-none uppercase  border-0  bg-transparent font-[500] text-[14px]'
             />
           </div>
-        </label>
+        </div>
 
-        <label htmlFor='btn-color' className='flex flex-col mt-[15px]  flex-1'>
-          <span className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90'>
+        <div className='flex flex-col mt-[15px]  flex-1'>
+          <label
+            htmlFor='btn-color'
+            className='font-[500] text-[14px] leading-[18px] pb-[10px] text-[#656971] text-opacity-90 w-[fit-content]'
+          >
             Button color
-          </span>
+          </label>
           <div className='rounded-[4px] border-gray-300 bg-white border-[1px] border-b-[2px] flex  items-center justify-center h-[40px] font-medium p-3'>
             <div className='rounded-full   bg-btnColor w-[16px] h-[16px] shrink-0 border  border-gray-300 mr-[8px]'>
               <input
@@ -148,7 +151,7 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               className='w-full h-full outline-none uppercase  border-0  bg-transparent font-[500] text-[14px]'
             />
           </div>
-        </label>
+        </div>
       </div>
       <div className='flex mt-[28px] w-full justify-end space-x-4'>
         <Button
