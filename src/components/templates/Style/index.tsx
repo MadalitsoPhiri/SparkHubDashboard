@@ -58,6 +58,7 @@ const Style: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
               id='logo'
               disabled={uploading}
               onChange={handleUpload}
+              accept='image/*'
               className='absolute left-0 right-0 w-[20px] invisible'
             />
           </label>
