@@ -4,7 +4,7 @@ class OffersState {
   advert = {
     isLoading: false,
     fetching_adverts: false,
-    advert: [],
+    advert: [] as any[],
   };
   survey: {
     isLoading: boolean;
