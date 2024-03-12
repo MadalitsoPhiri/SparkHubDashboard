@@ -5,6 +5,7 @@ import Accordion from '@/components/molecules/Accordion';
 import Domain from '@/components/templates/Domain';
 import RequireEmail from '@/components/templates/RequireEmail';
 import Snippet from '@/components/templates/Snippet';
+import { WidgetConfigStore } from '@/state/WidgetConfigStore';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 
@@ -45,11 +46,13 @@ const Setup = () => {
               Content={<item.Content />}
               Icon={<item.Icon />}
               payload={{ ...item, index, selected: selectedIndex === index }}
-              handleClick={() =>
-                selectedIndex === index
-                  ? setSelectedIndex(null)
-                  : setSelectedIndex(index)
-              }
+              handleClick={() => {
+                const activeItem = selectedIndex === index;
+
+                activeItem ? setSelectedIndex(null) : setSelectedIndex(index);
+
+                WidgetConfigStore.set_should_show_chat(false);
+              }}
             />
             {!isLastItem && (
               <div className='border border-[#ECEDF0] w-full h-[1px]'></div>

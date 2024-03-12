@@ -62,6 +62,8 @@ const General = () => {
 
                 if (item.Title === GENERAL_SECTION_NAMES.CHAT_PROMPTS) {
                   WidgetConfigStore.set_should_show_chat(!activeItem);
+                } else {
+                  WidgetConfigStore.set_should_show_chat(false);
                 }
               }}
             />
