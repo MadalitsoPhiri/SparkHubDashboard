@@ -28,6 +28,9 @@ class WidgetConfigurationStore {
     active_spark_gpt_question_index: null,
   };
   old_brand_logo_url = '';
+
+  should_show_chat = false;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -230,6 +233,9 @@ class WidgetConfigurationStore {
     if (payload != undefined) {
       this.faq.is_adding_faq = payload;
     }
+  }
+  set_should_show_chat(newVal: boolean) {
+    this.should_show_chat = newVal;
   }
   add_faq(payload: any) {
     if (payload != undefined) {
