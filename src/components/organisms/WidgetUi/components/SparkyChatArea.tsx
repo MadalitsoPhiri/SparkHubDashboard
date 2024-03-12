@@ -205,32 +205,38 @@ const SparkyChatArea = () => {
                   {widgetConfig?.greetings.chat_area_greeting_text}
                 </p>
               </div>
-              <div
-                onClick={() => null}
-                className='group rounded-[8px] p-[10px] bg-mainHoverColor mb-[8px] hover:bg-headerBgColor cursor-pointer'
-              >
-                <p className='text-headerBgColor group-hover:text-white  text-[14px] leading-[20px]'>
-                  {widgetConfig?.chat_suggestions.suggestion1}
-                </p>
-              </div>
+              {widgetConfig?.chat_suggestions.suggestion1 && (
+                <div
+                  onClick={() => null}
+                  className='group rounded-[8px] p-[10px] bg-mainHoverColor mb-[8px] hover:bg-headerBgColor cursor-pointer'
+                >
+                  <p className='text-headerBgColor group-hover:text-white  text-[14px] leading-[20px]'>
+                    {widgetConfig?.chat_suggestions.suggestion1}
+                  </p>
+                </div>
+              )}
 
-              <div
-                onClick={() => null}
-                className='group rounded-[8px] p-[10px] bg-mainHoverColor mb-[8px] hover:bg-headerBgColor cursor-pointer'
-              >
-                <p className='text-headerBgColor group-hover:text-white  text-[14px] leading-[20px]'>
-                  {widgetConfig?.chat_suggestions.suggestion2}
-                </p>
-              </div>
+              {widgetConfig?.chat_suggestions.suggestion2 && (
+                <div
+                  onClick={() => null}
+                  className='group rounded-[8px] p-[10px] bg-mainHoverColor mb-[8px] hover:bg-headerBgColor cursor-pointer'
+                >
+                  <p className='text-headerBgColor group-hover:text-white  text-[14px] leading-[20px]'>
+                    {widgetConfig?.chat_suggestions.suggestion2}
+                  </p>
+                </div>
+              )}
 
-              <div
-                onClick={() => null}
-                className='group rounded-[8px] p-[10px] bg-mainHoverColor  mb-[8px] hover:bg-headerBgColor cursor-pointer'
-              >
-                <p className='text-headerBgColor group-hover:text-white text-[14px] leading-[20px]'>
-                  {widgetConfig?.chat_suggestions.suggestion3}
-                </p>
-              </div>
+              {widgetConfig?.chat_suggestions.suggestion3 && (
+                <div
+                  onClick={() => null}
+                  className='group rounded-[8px] p-[10px] bg-mainHoverColor  mb-[8px] hover:bg-headerBgColor cursor-pointer'
+                >
+                  <p className='text-headerBgColor group-hover:text-white text-[14px] leading-[20px]'>
+                    {widgetConfig?.chat_suggestions.suggestion3}
+                  </p>
+                </div>
+              )}
               <div ref={bottomRef} />
             </div>
           ) : (
