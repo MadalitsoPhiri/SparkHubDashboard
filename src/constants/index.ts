@@ -53,6 +53,12 @@ export enum CONVERSATION_SORT {
   OLDEST = 'Oldest',
 }
 
+export enum GENERAL_SECTION_NAMES {
+  CHAT_PROMPTS = 'Chat prompts',
+  AVAILABILITY = `Say when you'll be available`,
+  FAQ = 'Add frequently asked questions to SparkChat',
+}
+
 export const USER_TOKEN = '_ki';
 
 export const signUpSelectOptions = [
