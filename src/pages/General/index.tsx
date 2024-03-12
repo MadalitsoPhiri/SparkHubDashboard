@@ -5,6 +5,8 @@ import Accordion from '@/components/molecules/Accordion';
 import ChatSuggestions from '@/components/templates/ChatSuggestions';
 import FAQs from '@/components/templates/FAQs';
 import OfficeHours from '@/components/templates/OfficeHours';
+import { GENERAL_SECTION_NAMES } from '@/constants/index';
+import { WidgetConfigStore } from '@/state/WidgetConfigStore';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 
@@ -13,21 +15,21 @@ const General = () => {
 
   const general = [
     {
-      Title: 'Chat prompts',
+      Title: GENERAL_SECTION_NAMES.CHAT_PROMPTS,
       Phrase: 'Suggest a message to your customers',
       selected: false,
       Content: ChatSuggestions,
       Icon: ChatSuggestionIcon,
     },
     {
-      Title: `Say when you'll be available`,
+      Title: GENERAL_SECTION_NAMES.AVAILABILITY,
       Phrase: 'Set default office hours and reply times',
       selected: false,
       Content: OfficeHours,
       Icon: OfficeHoursIcon,
     },
     {
-      Title: 'Add frequently asked questions to SparkChat',
+      Title: GENERAL_SECTION_NAMES.FAQ,
       Phrase: 'Set FAQs for your customers',
       selected: false,
       Content: FAQs,
@@ -53,11 +55,15 @@ const General = () => {
               }
               Icon={<item.Icon />}
               payload={{ ...item, index, selected: selectedIndex === index }}
-              handleClick={() =>
-                selectedIndex === index
-                  ? setSelectedIndex(null)
-                  : setSelectedIndex(index)
-              }
+              handleClick={() => {
+                const activeItem = selectedIndex === index;
+
+                activeItem ? setSelectedIndex(null) : setSelectedIndex(index);
+
+                if (item.Title === GENERAL_SECTION_NAMES.CHAT_PROMPTS) {
+                  WidgetConfigStore.set_should_show_chat(!activeItem);
+                }
+              }}
             />
             {!isLastItem && (
               <div className='border border-[#ECEDF0] w-full h-[1px]'></div>
