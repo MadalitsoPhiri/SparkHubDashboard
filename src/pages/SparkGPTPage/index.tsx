@@ -3,6 +3,7 @@ import { FAQsIcon } from '@/components/atoms/Icons/FAQsIcon';
 import Accordion from '@/components/molecules/Accordion';
 import ImportSparkGPTData from '@/components/templates/ImportSparkGPTData';
 import SparkGPT from '@/components/templates/SparkGPT';
+import { WidgetConfigStore } from '@/state/WidgetConfigStore';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 
@@ -36,11 +37,13 @@ const SparkGPTPage = () => {
               Content={<item.Content />}
               Icon={<item.Icon />}
               payload={{ ...item, index, selected: selectedIndex === index }}
-              handleClick={() =>
-                selectedIndex === index
-                  ? setSelectedIndex(null)
-                  : setSelectedIndex(index)
-              }
+              handleClick={() => {
+                const activeItem = selectedIndex === index;
+
+                activeItem ? setSelectedIndex(null) : setSelectedIndex(index);
+
+                WidgetConfigStore.set_should_show_chat(false);
+              }}
             />
             {!isLastItem && (
               <div className='border border-[#ECEDF0] w-full h-[1px]'></div>

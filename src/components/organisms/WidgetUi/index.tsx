@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import SparkyHome from './components/SparkyHome';
 import SparkyChatArea from './components/SparkyChatArea';
 import AllFAQs from './components/AllFAQs';
 import { observer } from 'mobx-react-lite';
+import { WidgetConfigStore } from '@/state/WidgetConfigStore';
 
 const AppWidget = () => {
   const [isOpen] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(
+    WidgetConfigStore.should_show_chat ? 1 : 0,
+  );
   const [prevIndex, setPrevIndex] = useState(0);
 
   const navigate = (index: number) => {
@@ -29,6 +32,10 @@ const AppWidget = () => {
     { path: 'chat', element: <SparkyChatArea /> },
     { path: 'allfaqs', element: <AllFAQs /> },
   ];
+
+  useEffect(() => {
+    setCurrentIndex(WidgetConfigStore.should_show_chat ? 1 : 0);
+  }, [WidgetConfigStore.should_show_chat]);
 
   return (
     <div className='h-full flex flex-col items-end  justify-end p-[20px]   max-h-[850px] min-h-[400px] overflow-y-hidden'>
