@@ -11,43 +11,41 @@ import { observer } from 'mobx-react-lite';
 import ConfigInput from '@/components/atoms/ConfigInput';
 import Spinner from '@/components/atoms/Spinner';
 import { UploadIcon } from '@/components/atoms/Icons/UploadIcon';
+import { AuthStore } from '@/state/AuthenticationStore';
+import { SOCKET_EVENT_NAMES } from '@/constants/socket.events';
 
 const AdUploads = () => {
   const [close, setClose] = useState<boolean | null>(null);
   const { uploading, upload, response } = useUpload();
   const [is_editing, setIsEditing] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [oldImageUrl, setOldImageUrl] = useState('');
   const { remove_advert, create_advert, edit_advert, get_adverts } =
     useOffers();
   const editAdvert = (id: string) => {
     setIsEditing(id);
+    setClose(false);
+
+    const imgURL =
+      OffersStore?.advert?.advert?.find(ad => ad._id == id).image || '';
+
+    setImageUrl(imgURL.includes('picsum.photos') ? '' : imgURL);
   };
 
   const cancel = () => {
     setIsEditing('');
+    setImageUrl('');
   };
 
   const deleteAdvert = (id: string, index: number) => {
     remove_advert(id, index);
   };
   const onHandleSubmit = (values: any) => {
-    const features = [];
-
-    if (values.feature1) {
-      features.push({
-        title: values.feature1,
-      });
-    }
-    if (values.feature2) {
-      features.push({
-        title: values.feature2,
-      });
-    }
-    if (values.feature3) {
-      features.push({
-        title: values.feature3,
-      });
-    }
+    const features = [values.feature1, values.feature2, values.feature3]
+      .filter(feature => !!feature?.trim())
+      .map(feature => ({
+        title: feature.trim(),
+      }));
 
     create_advert({
       features,
@@ -62,37 +60,51 @@ const AdUploads = () => {
     setImageUrl('');
   };
 
-  const updateAdvert = (id: string, values: any) => {
-    const features = [];
+  const updateAdvert = async (id: string, values: any) => {
+    const features = [values.feature1, values.feature2, values.feature3]
+      .filter(feature => !!feature?.trim())
+      .map(feature => ({
+        title: feature.trim(),
+      }));
 
-    if (values.feature1) {
-      features.push({
-        title: values.feature1,
-      });
-    }
-    if (values.feature2) {
-      features.push({
-        title: values.feature2,
-      });
-    }
-    if (values.feature3) {
-      features.push({
-        title: values.feature3,
+    if (oldImageUrl) {
+      const splitUpURL = oldImageUrl.split('/') as string[];
+      const file_name = splitUpURL[splitUpURL.length - 1];
+
+      await new Promise((resolve, reject) => {
+        AuthStore.socket?.emit(
+          SOCKET_EVENT_NAMES.DELETE_FILE,
+          {
+            event_name: SOCKET_EVENT_NAMES.DELETE_FILE,
+            data: {
+              file_name,
+            },
+          },
+          (val: any) => {
+            if (val.error) {
+              reject(val);
+            } else {
+              resolve(val);
+            }
+          },
+        );
       });
     }
 
     edit_advert({
       id,
       features,
-      image: imageUrl || values?.image || 'https://picsum.photos/200/300',
+      image: imageUrl || 'https://picsum.photos/200/300',
       headline: values?.headline,
       buttonLabel: values?.buttonLabel,
       outsideUrl: values?.outsideUrl?.startsWith('http')
         ? values?.outsideUrl
         : `https://${values?.outsideUrl}`,
       widgetId: WidgetConfigStore.config.value?._id,
-    }),
-      setIsEditing('');
+    });
+    setIsEditing('');
+    setImageUrl('');
+    setOldImageUrl('');
   };
 
   const advertSchema = Yup.object().shape({
@@ -107,7 +119,7 @@ const AdUploads = () => {
     feature2: Yup.string().min(1, 'Too Short!').max(50, 'Too Long!'),
     feature3: Yup.string().min(1, 'Too Short!').max(50, 'Too Long!'),
     buttonLabel: Yup.string().min(1, 'Too Short!').max(20, 'Too Long!'),
-    outsideUrl: Yup.string(),
+    outsideUrl: Yup.string().required('Required'),
   });
 
   function handleupload({ target: { files } }: { target: { files: any } }) {
@@ -134,6 +146,84 @@ const AdUploads = () => {
       </div>
     );
   }
+
+  const UploaderWrapper: FC<any> = observer(() => {
+    // TODO: if client doesn't like this, replace <UploaderWrapper /> with <Uploader />
+    return (
+      <>
+        {/* CSS Animation */}
+        <style>
+          {`@keyframes scroll {
+          0% {
+            background-position-x: 0;
+          }
+          100% {
+            background-position-x: 50px;
+          }
+        }`}
+        </style>
+        {/* A blank div to hold the CSS Animation.
+         * Shown only when an image is being downloaded.
+         */}
+        {uploading && (
+          <>
+            <div
+              style={{
+                width: '100%',
+                height: '100%',
+                position: 'absolute',
+                top: '0',
+                left: '0',
+                backgroundImage:
+                  'linear-gradient(90deg, rgb(3 62 181 / 47%) 50%, transparent 50%, transparent)',
+                backgroundSize: '50px 200%',
+                transition: 'all .25s',
+                backgroundPositionX: '0px',
+                zIndex: 2,
+                transform: 'scaleX(2) skewX(-10deg)',
+                animation: 'scroll 1.4s linear infinite',
+              }}
+            ></div>
+          </>
+        )}
+        <div
+          style={{
+            opacity: uploading ? '0.34' : 1,
+          }}
+        >
+          <Uploader />
+        </div>
+      </>
+    );
+  });
+
+  const Uploader: FC<any> = observer(() => {
+    return (
+      <label
+        htmlFor='logo'
+        className='relative  flex flex-col justify-center items-center  cursor-pointer'
+      >
+        <UploadIcon />
+        <p className='text-[14px] font-[500] text-[#161518] mt-[8px] mb-[6px]'>
+          <span className='text-[14px] font-[500] text-[#1068EF]'>
+            Upload a file{' '}
+          </span>{' '}
+          or drag and drop
+        </p>
+        <p className='font-[400] text-[12px] text-[#656971]'>
+          SVG, PNG, JPG, GIF or MP4.
+        </p>
+        <input
+          type='file'
+          id='logo'
+          disabled={uploading}
+          onChange={handleupload}
+          accept='image/*'
+          className='absolute left-0 right-0 w-[20px] invisible'
+        />
+      </label>
+    );
+  });
 
   const Card: FC<any> = observer(({ item, index }) => {
     return (
@@ -171,29 +261,29 @@ const AdUploads = () => {
               >
                 {({ values, handleSubmit, handleChange }) => (
                   <form className={`flex flex-col`} onSubmit={handleSubmit}>
-                    <div className='relative rounded-[4px] h-[152px]  w-full flex flex-col justify-center items-center  border-[2px] border-[#E6E8EB] border-dashed bg-white mb-6'>
-                      <label
-                        htmlFor='logo'
-                        className='relative  flex flex-col justify-center items-center  cursor-pointer'
-                      >
-                        <UploadIcon />
-                        <p className='text-[14px] font-[500] text-[#161518] mt-[8px] mb-[6px]'>
-                          <span className='text-[14px] font-[500] text-[#1068EF]'>
-                            Upload a file{' '}
-                          </span>{' '}
-                          or drag and drop
-                        </p>
-                        <p className='font-[400] text-[12px] text-[#656971]'>
-                          SVG, PNG, JPG, GIF or MP4.
-                        </p>
-                        <input
-                          type='file'
-                          id='logo'
-                          disabled={uploading}
-                          onChange={handleupload}
-                          className='absolute left-0 right-0 w-[20px] invisible'
-                        />
-                      </label>
+                    <div className='relative overflow-hidden rounded-[4px] h-[auto] py-[2rem] w-full flex flex-col justify-center items-center  border-[2px] border-[#E6E8EB] border-dashed bg-white mb-6'>
+                      {imageUrl ? (
+                        <>
+                          <img
+                            className='h-[14vh] mb-[1rem]'
+                            src={imageUrl}
+                            alt='Branding'
+                          />
+                          <Button
+                            type='button'
+                            text='Remove'
+                            size='sm'
+                            disabled={uploading}
+                            onClick={() => {
+                              setOldImageUrl(imageUrl);
+                              setImageUrl('');
+                            }}
+                            variant='outline'
+                          />
+                        </>
+                      ) : (
+                        <UploaderWrapper />
+                      )}
                     </div>
                     <div className='flex flex-col w-full  mb-4 '>
                       <ConfigInput
@@ -275,9 +365,9 @@ const AdUploads = () => {
               <>
                 <div className='p-4 flex flex-col'>
                   <div
-                    className='h-[192px] rounded-md overflow-hidden'
+                    className='w-[100%] h-[192px] rounded-md overflow-hidden'
                     style={{
-                      backgroundImage: `url(${item?.image})`,
+                      backgroundImage: `url("${item?.image}")`,
                       backgroundSize: 'cover',
                       backgroundPosition: 'center',
                       backgroundRepeat: 'no-repeat',
@@ -408,29 +498,28 @@ const AdUploads = () => {
               {({ values, handleSubmit, handleChange }) => (
                 <form className={`flex flex-col`} onSubmit={handleSubmit}>
                   <div className='rounded-[8px] bg-white p-6'>
-                    <div className='relative rounded-[4px] h-[152px]  w-full flex flex-col justify-center items-center  border-[2px] border-[#E6E8EB] border-dashed bg-white mb-6'>
-                      <label
-                        htmlFor='logo'
-                        className='relative  flex flex-col justify-center items-center  cursor-pointer'
-                      >
-                        <UploadIcon />
-                        <p className='text-[14px] font-[500] text-[#161518] mt-[8px] mb-[6px]'>
-                          <span className='text-[14px] font-[500] text-[#1068EF]'>
-                            Upload a file{' '}
-                          </span>{' '}
-                          or drag and drop
-                        </p>
-                        <p className='font-[400] text-[12px] text-[#656971]'>
-                          SVG, PNG, JPG, GIF or MP4.
-                        </p>
-                        <input
-                          type='file'
-                          id='logo'
-                          disabled={uploading}
-                          onChange={handleupload}
-                          className='absolute left-0 right-0 w-[20px] invisible'
-                        />
-                      </label>
+                    <div className='relative overflow-hidden rounded-[4px] h-[auto] py-[2rem] w-full flex flex-col justify-center items-center  border-[2px] border-[#E6E8EB] border-dashed bg-white mb-6'>
+                      {imageUrl ? (
+                        <>
+                          <img
+                            className='h-[14vh] mb-[1rem]'
+                            src={imageUrl}
+                            alt='Branding'
+                          />
+                          <Button
+                            type='button'
+                            text='Remove'
+                            size='sm'
+                            disabled={uploading}
+                            onClick={() => {
+                              setImageUrl('');
+                            }}
+                            variant='outline'
+                          />
+                        </>
+                      ) : (
+                        <UploaderWrapper />
+                      )}
                     </div>
                     <div className='flex flex-col w-full  mb-4 '>
                       <ConfigInput
@@ -493,6 +582,7 @@ const AdUploads = () => {
                       name='outsideUrl'
                       value={values.outsideUrl}
                       onChange={handleChange('outsideUrl')}
+                      required
                     />
                   </div>
                   <div className='mt-[20px] flex justify-end space-x-4'>
@@ -521,10 +611,14 @@ const AdUploads = () => {
             </Formik>
           )
         )}
-        {OffersStore.advert.advert.length > 0 && !close && (
+        {OffersStore?.advert?.advert?.length > 0 && !close && (
           <div className='flex justify-end space-x-4'>
             <Button
-              onClick={() => setClose(!close)}
+              onClick={() => {
+                setClose(true);
+                setIsEditing('');
+                setImageUrl('');
+              }}
               type='button'
               text='Add another product'
               size='sm'

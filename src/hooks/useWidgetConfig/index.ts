@@ -25,6 +25,7 @@ export const useWidgetConfig = () => {
             if (val.error) {
               reject(val);
             } else {
+              WidgetConfigStore.resetOldBrandLogo();
               resolve(val);
             }
           },

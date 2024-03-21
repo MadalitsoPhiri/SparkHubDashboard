@@ -157,7 +157,7 @@ class WidgetConfigurationStore {
   updateBrandLogoUrl(payload: any) {
     if (this.config.value) {
       this.config.value.images.brand_logo_url = payload;
-      this.old_brand_logo_url = '';
+      this.resetOldBrandLogo();
     }
   }
 
@@ -376,6 +376,9 @@ class WidgetConfigurationStore {
 
   decrease_question(payload: any) {
     this.config.questions.value -= payload;
+  }
+  resetOldBrandLogo() {
+    this.old_brand_logo_url = '';
   }
 }
 
