@@ -29,11 +29,11 @@ const SurveyPreview = () => {
                 <span className='mb-4 text-[14px]'>{item?.description}</span>
                 {item?.options?.map((option, index) => (
                   <button
-                    className={`border-btnColor rounded-[99px] border flex flex-row justify-center items-center px-[28px] py-[10px] my-1`}
+                    className={`border-btnColor rounded-[6px] border-2 flex flex-row justify-center items-center px-[28px] py-[10px] my-1`}
                     key={index}
                   >
                     <p
-                      className={` text-btnColor ml-[12px] font-semibold text-[14px] leading-[20px]`}
+                      className={` text-btnColor ml-[12px] font-semibold text-[16px] leading-[20px]`}
                     >
                       {option.title}
                     </p>
