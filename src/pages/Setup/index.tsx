@@ -14,18 +14,18 @@ const Setup = () => {
 
   const general = [
     {
-      Title: 'Keep your Widget secure',
-      Phrase: 'Set up trusted domains',
-      selected: false,
-      Content: Domain,
-      Icon: SecureDomainsIcon,
-    },
-    {
       Title: 'Add SparkChat to your website',
       Phrase: `Adding this code in your <head> area will load SparkChat Messenger on your website`,
       selected: false,
       Content: Snippet,
       Icon: AddCodeSnippetIcon,
+    },
+    {
+      Title: 'Keep your Widget secure',
+      Phrase: 'Set up trusted domains',
+      selected: false,
+      Content: Domain,
+      Icon: SecureDomainsIcon,
     },
     {
       Title: 'Require an email for new conversations',
