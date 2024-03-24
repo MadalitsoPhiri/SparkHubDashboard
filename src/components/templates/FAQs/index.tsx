@@ -130,7 +130,11 @@ const FAQs = () => {
           <p className='font-medium text-md leading-[24px] text-[#222] mb-1'>
             Answer
           </p>
-          <TextEditor setValue={set_add_edit_answer} value={add_edit_answer} />
+          <TextEditor
+            setValue={set_add_edit_answer}
+            value={add_edit_answer}
+            placeholder='Type answer here'
+          />
           <div>
             <div className='flex mt-[28px] w-full justify-end space-x-4'>
               <Button

@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './editor.css';
 
-const TextEditor: FC<any> = ({ value, setValue }) => {
+const TextEditor: FC<any> = ({ value, setValue, placeholder }) => {
   const editorRef = useRef(null);
   const modules = {
     toolbar: [
@@ -24,6 +24,7 @@ const TextEditor: FC<any> = ({ value, setValue }) => {
       onChange={setValue}
       modules={modules}
       ref={editorRef}
+      placeholder={placeholder}
     />
   );
 };
