@@ -1,6 +1,7 @@
 import Button from '@/components/atoms/Button';
 import { UploadIcon } from '@/components/atoms/Icons/UploadIcon';
 import Spinner from '@/components/atoms/Spinner';
+import { SOCKET_EVENT_NAMES } from '@/constants/socket.events';
 import { AuthStore } from '@/state/AuthenticationStore';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
@@ -16,6 +17,10 @@ const ImportSparkGPTData = () => {
   const [websiteUrl, setWebSiteUrl] = useState('');
   const [context, setContext] = useState<any>(null);
   const [importing_website, set_importing_website] = useState(false);
+
+  const [googleDocsUrl, setGoogleDocsUrl] = useState('');
+  const [importing_doc, set_importing_doc] = useState(false);
+
   const [loading, set_loading] = useState(true);
   const handleSelect = (index: number) => {
     setSelectedTabIndex(index);
@@ -47,6 +52,7 @@ const ImportSparkGPTData = () => {
 
         if (response.context.website_url)
           setWebSiteUrl(response.context.website_url);
+        setGoogleDocsUrl(response.context.google_docs_url);
         setContext(response.context);
       },
     );
@@ -97,7 +103,7 @@ const ImportSparkGPTData = () => {
           <p className='text-gray-500 font-medium mb-2'>Website URL</p>
           <div className='rounded-[4px] border-gray-300 bg-white border-[1px] border-b-[2px] flex  items-center justify-center h-[40px] font-medium p-3'>
             <input
-              key={''}
+              key={'importing_website'}
               type='text'
               disabled={importing_website}
               onChange={e => setWebSiteUrl(e.target.value)}
@@ -139,7 +145,7 @@ const ImportSparkGPTData = () => {
               type='text'
               onChange={() => null}
               value={''}
-              className='w-full h-full outline-none uppercase  border-0  bg-transparent font-[500] text-[14px]'
+              className='w-full h-full outline-none border-0 bg-transparent font-[500] text-[14px]'
             />
           </div>
           <div className='flex mt-[28px] w-full justify-end space-x-4'>
@@ -170,26 +176,31 @@ const ImportSparkGPTData = () => {
           <p className='text-gray-500 font-medium mb-2'>Google Docs URL</p>
           <div className='rounded-[4px] border-gray-300 bg-white border-[1px] border-b-[2px] flex  items-center justify-center h-[40px] font-medium p-3'>
             <input
-              key={''}
+              key={'google_docs'}
               type='text'
-              onChange={() => null}
-              value={''}
-              className='w-full h-full outline-none uppercase  border-0  bg-transparent font-[500] text-[14px]'
+              disabled={importing_doc}
+              onChange={e => setGoogleDocsUrl(e.target.value)}
+              value={googleDocsUrl}
+              className='w-full h-full outline-none border-0 bg-transparent font-[500] text-[14px]'
             />
           </div>
           <div className='flex mt-[28px] w-full justify-end space-x-4'>
             <Button
               type='button'
-              text='Cancel'
-              size='sm'
-              disabled={false}
-              onClick={() => null}
-              variant='outline'
-            />
-            <Button
-              type='button'
-              disabled={false}
-              onClick={() => null}
+              disabled={importing_doc}
+              onClick={() => {
+                set_importing_doc(true);
+                AuthStore?.socket?.emit(
+                  SOCKET_EVENT_NAMES.IMPORT_GOOGLE_DOC,
+                  {
+                    event_name: SOCKET_EVENT_NAMES.IMPORT_GOOGLE_DOC,
+                    payload: { url: googleDocsUrl.trim() },
+                  },
+                  () => {
+                    set_importing_doc(false);
+                  },
+                );
+              }}
               loading={false}
               text={'Import Google Docs'}
               loadingText='Saving'

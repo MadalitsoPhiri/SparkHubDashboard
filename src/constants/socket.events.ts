@@ -21,6 +21,9 @@ export const SOCKET_EVENT_NAMES = {
   DELETE_TASK: 'delete_task',
   UPDATE_TASK: 'update_task',
 
+  // SparkGPT
+  IMPORT_GOOGLE_DOC: 'import_google_doc',
+
   // AUTH
 
   // USER AND TEAMMATE
