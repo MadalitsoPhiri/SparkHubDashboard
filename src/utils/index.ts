@@ -175,3 +175,115 @@ export const formatActivityData = (activityLog: ActivityLog[]) => {
 
   return result;
 };
+
+export const getHexLuminance = (hexString: string) => {
+  const color =
+    hexString.charAt(0) === '#' ? hexString.substring(1, 7) : hexString;
+  const r = parseInt(color.substring(0, 2), 16); // hexToR
+  const g = parseInt(color.substring(2, 4), 16); // hexToG
+  const b = parseInt(color.substring(4, 6), 16); // hexToB
+  // converting to grayscale btw
+  return r * 0.299 + g * 0.587 + b * 0.114;
+};
+
+export const hexToRGB = (hexString: string) => {
+  const color =
+    hexString.charAt(0) === '#' ? hexString.substring(1, 7) : hexString;
+  const r = parseInt(color.substring(0, 2), 16); // hexToR
+  const g = parseInt(color.substring(2, 4), 16); // hexToG
+  const b = parseInt(color.substring(4, 6), 16); // hexToB
+
+  return [r, g, b] as const;
+};
+
+export const luminance = (r: number, g: number, b: number) => {
+  const a = [r, g, b].map(v => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  });
+  return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+};
+
+export const getContrastRatio = (color1: string, color2: string) => {
+  const lum1 = luminance(...hexToRGB(color1));
+  const lum2 = luminance(...hexToRGB(color2));
+
+  const brightest = Math.max(lum1, lum2);
+  const darkest = Math.min(lum1, lum2);
+  return (brightest + 0.05) / (darkest + 0.05);
+};
+
+export const pickTextColorBasedOnBgColorAdvanced = (
+  bgColor: string,
+  lightColor: string,
+  darkColor: string,
+) => {
+  return getHexLuminance(bgColor) > 186 ? darkColor : lightColor;
+};
+
+export const pickHeaderTextcolor = (
+  headerTextColor: string,
+  bgColor: string,
+  lightColor: string,
+  darkColor: string,
+) => {
+  const contrastRatio = getContrastRatio(headerTextColor, bgColor);
+
+  // Compare luminances
+  if (contrastRatio > 4.3) {
+    // User picked colours have good contrast use headerTextColor
+    return headerTextColor;
+  } else {
+    return pickTextColorBasedOnBgColorAdvanced(bgColor, lightColor, darkColor);
+  }
+};
+
+export const setCSSVariables = () => {
+  if (WidgetConfigStore.config.value) {
+    document.documentElement.style.setProperty(
+      '--header-bg-color',
+      WidgetConfigStore.config.value.colors.header_bg_color,
+    );
+    document.documentElement.style.setProperty(
+      '--header-text-color',
+      WidgetConfigStore.config.value.colors.header_text_color,
+    );
+    document.documentElement.style.setProperty(
+      '--header-text-color-actual',
+      pickHeaderTextcolor(
+        WidgetConfigStore.config.value.colors.header_text_color,
+        WidgetConfigStore.config.value.colors.header_bg_color,
+        '#FFFFFF',
+        '#000000',
+      ),
+    );
+    document.documentElement.style.setProperty(
+      '--chevron-color',
+      pickTextColorBasedOnBgColorAdvanced(
+        WidgetConfigStore.config.value.colors.header_bg_color,
+        '#FFFFFF',
+        '#000000',
+      ),
+    );
+    document.documentElement.style.setProperty(
+      '--border-color',
+      WidgetConfigStore.config.value.colors.border_color,
+    );
+    document.documentElement.style.setProperty(
+      '--btn-color',
+      WidgetConfigStore.config.value.colors.btn_color,
+    );
+    document.documentElement.style.setProperty(
+      '--btn-txt-color',
+      pickTextColorBasedOnBgColorAdvanced(
+        WidgetConfigStore.config.value.colors.btn_color,
+        '#FFFFFF',
+        '#000000',
+      ),
+    );
+    document.documentElement.style.setProperty(
+      '--main-hover-color',
+      `${WidgetConfigStore.config.value.colors.header_bg_color}20`,
+    );
+  }
+};

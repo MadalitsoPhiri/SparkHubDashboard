@@ -65,7 +65,7 @@ const AppWidget = () => {
       </AnimatePresence>
       <div className=' bg-headerBgColor absolute -bottom-0 right-0 m-[20px] sm:m-0 cursor-pointer rounded-full flex sm:static  w-[60px] h-[60px] flex-shrink-0  flex-col justify-center items-center '>
         <svg
-          className='w-[32px] h-[32px] text-white'
+          className='w-[32px] h-[32px] text-chevronColor'
           fill='currentColor'
           viewBox='0 0 20 20'
           xmlns='http://www.w3.org/2000/svg'

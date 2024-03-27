@@ -2,6 +2,7 @@ import Spinner from '@/components/atoms/Spinner';
 import WidgetUi from '@/components/organisms/WidgetUi';
 import { useWidgetConfig } from '@/hooks/useWidgetConfig';
 import { WidgetConfigStore } from '@/state/WidgetConfigStore';
+import { setCSSVariables } from '@/utils/index';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
@@ -9,32 +10,7 @@ import { Outlet } from 'react-router-dom';
 const Configurations = () => {
   const { get_widget_config } = useWidgetConfig();
   useEffect(() => {
-    if (WidgetConfigStore.config.value) {
-      document.documentElement.style.setProperty(
-        '--header-bg-color',
-        WidgetConfigStore.config.value.colors.header_bg_color,
-      );
-      document.documentElement.style.setProperty(
-        '--header-text-color',
-        WidgetConfigStore.config.value.colors.header_text_color,
-      );
-      document.documentElement.style.setProperty(
-        '--border-color',
-        WidgetConfigStore.config.value.colors.border_color,
-      );
-      document.documentElement.style.setProperty(
-        '--btn-color',
-        WidgetConfigStore.config.value.colors.btn_color,
-      );
-      document.documentElement.style.setProperty(
-        '--btn-txt-color',
-        WidgetConfigStore.config.value.colors.btn_text_color,
-      );
-      document.documentElement.style.setProperty(
-        '--main-hover-color',
-        `${WidgetConfigStore.config.value.colors.header_bg_color}20`,
-      );
-    }
+    setCSSVariables();
   }, [
     WidgetConfigStore.config.value?.colors.header_bg_color,
     WidgetConfigStore.config.value?.colors.header_text_color,
