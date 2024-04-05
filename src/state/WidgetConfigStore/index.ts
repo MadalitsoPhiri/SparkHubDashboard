@@ -1,3 +1,4 @@
+import { EMAIL_REQUIRED_STATUS } from '@/constants/index';
 import { makeAutoObservable } from 'mobx';
 
 class WidgetConfigurationStore {
@@ -364,6 +365,11 @@ class WidgetConfigurationStore {
       };
     }
   }
+
+  updateEmailRequired(payload: EMAIL_REQUIRED_STATUS) {
+    this.config.value.email_required = payload;
+  }
+
   processConfigAck(payload: any) {
     if (payload.field === 'style') {
       this.config.style.loading = false;
