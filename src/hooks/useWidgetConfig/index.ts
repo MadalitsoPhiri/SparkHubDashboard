@@ -1,6 +1,7 @@
 import { SOCKET_EVENT_NAMES } from '@/constants/socket.events';
 import { AuthStore } from '@/state/AuthenticationStore';
 import { WidgetConfigStore } from '@/state/WidgetConfigStore';
+import { convertTime12to24, convertTo12Hour } from '@/utils/index';
 
 export const useWidgetConfig = () => {
   const publish = async () => {
@@ -33,6 +34,13 @@ export const useWidgetConfig = () => {
     }
 
     const payload = WidgetConfigStore.config.value;
+    payload.availability.officeHours = payload.availability.officeHours.map(
+      (day: any) => ({
+        openDay: day.openDay,
+        openTime: convertTime12to24(day.openTime),
+        closeTime: convertTime12to24(day.closeTime),
+      }),
+    );
 
     AuthStore.socket?.emit(
       SOCKET_EVENT_NAMES.UPDATE_CONFIG,
@@ -41,6 +49,10 @@ export const useWidgetConfig = () => {
         WidgetConfigStore.finishPublishLoading();
       },
     );
+    WidgetConfigStore.config.value.availability.officeHours[0].openTime =
+      convertTo12Hour(payload.availability.officeHours[0].openTime);
+    WidgetConfigStore.config.value.availability.officeHours[0].closeTime =
+      convertTo12Hour(payload.availability.officeHours[0].closeTime);
   };
 
   const get_spark_gpt_question_list = () => {
