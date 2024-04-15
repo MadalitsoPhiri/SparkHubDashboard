@@ -1,3 +1,5 @@
+import { EMAIL_REQUIRED_STATUS } from '@/constants/index';
+import { convertTo12Hour } from '@/utils/index';
 import { makeAutoObservable } from 'mobx';
 
 class WidgetConfigurationStore {
@@ -36,6 +38,12 @@ class WidgetConfigurationStore {
   }
   addConfig(payload: any) {
     this.config.value = payload;
+    this.config.value.availability.officeHours[0].openTime = convertTo12Hour(
+      payload.availability.officeHours[0].openTime,
+    );
+    this.config.value.availability.officeHours[0].closeTime = convertTo12Hour(
+      payload.availability.officeHours[0].closeTime,
+    );
     this.config.fetching = false;
     this.config.loading = false;
   }
@@ -364,6 +372,11 @@ class WidgetConfigurationStore {
       };
     }
   }
+
+  updateEmailRequired(payload: EMAIL_REQUIRED_STATUS) {
+    this.config.value.email_required = payload;
+  }
+
   processConfigAck(payload: any) {
     if (payload.field === 'style') {
       this.config.style.loading = false;

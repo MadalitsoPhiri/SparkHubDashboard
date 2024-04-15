@@ -38,6 +38,12 @@ export const CONVERSATION_TYPE = {
   SINGLE: 'SINGLE',
 };
 
+export enum EMAIL_REQUIRED_STATUS {
+  OFFICE_HOURS = 'OFFICE_HOURS',
+  ALWAYS = 'ALWAYS',
+  NEVER = 'NEVER',
+}
+
 export const MESSAGE_STATUS = {
   SENDING: 'sending',
   DEFAULT: 'default',

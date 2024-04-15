@@ -1,49 +1,22 @@
-import { useState, useEffect } from 'react';
 import Button from '@/components/atoms/Button';
 import Text from '@/components/atoms/Text';
+import { WidgetConfigStore } from '@/state/WidgetConfigStore';
+import { EMAIL_REQUIRED_STATUS } from '@/constants/index';
+import { useWidgetConfig } from '@/hooks/useWidgetConfig';
+import { observer } from 'mobx-react-lite';
 
 const RequireEmail = () => {
-  const [loading, setLoading] = useState(false);
-  const [radioInput, setRadioInput] = useState<any>({
-    hours: false,
-    always: false,
-    never: false,
-  });
+  const { publish } = useWidgetConfig();
 
-  const handleCheck = (e: any, selectedName: string) => {
-    const name = e.target.name;
-    const value = e.target.value;
+  const handleCheck = (e: any) => {
+    const name = e.target.name as EMAIL_REQUIRED_STATUS;
 
-    setRadioInput(() => {
-      if (name === selectedName) {
-        return {
-          [name]: true,
-        };
-      } else {
-        return {
-          [name]: value,
-        };
-      }
-    });
+    WidgetConfigStore.updateEmailRequired(name);
   };
 
   const handleSave = () => {
-    setLoading(true);
-    localStorage.setItem('requireEmail', JSON.stringify(radioInput));
-    window.dispatchEvent(new Event('storage'));
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    publish();
   };
-
-  useEffect(() => {
-    const requireEmail = JSON.parse(
-      localStorage.getItem('requireEmail') as string,
-    );
-    if (requireEmail) {
-      setRadioInput(requireEmail);
-    }
-  }, []);
 
   return (
     <div className='pb-[30px] px-1'>
@@ -55,12 +28,16 @@ const RequireEmail = () => {
         <label htmlFor='' className='flex items-start'>
           <input
             type='radio'
-            name='hours'
+            name={EMAIL_REQUIRED_STATUS.OFFICE_HOURS}
             className='cursor-pointer h-5 w-5'
-            onChange={e => handleCheck(e, 'hours')}
-            checked={radioInput.hours}
+            onChange={e => handleCheck(e)}
+            checked={
+              WidgetConfigStore.config.value.email_required ===
+              EMAIL_REQUIRED_STATUS.OFFICE_HOURS
+            }
+            id={EMAIL_REQUIRED_STATUS.OFFICE_HOURS}
           />
-          <div className='ml-3'>
+          <label htmlFor={EMAIL_REQUIRED_STATUS.OFFICE_HOURS} className='ml-3'>
             <Text
               size='sm'
               className='text-neutral-900 font-inter text-md font-medium'
@@ -70,19 +47,23 @@ const RequireEmail = () => {
             <span className='font-normal text-[13px] leading-4 text-gray-400 tracking-[0.20px]'>
               Reduces conversation volume by around 5% on average
             </span>
-          </div>
+          </label>
         </label>
       </div>
       <div className='flex flex-col mb-4'>
         <label htmlFor='' className='flex items-start'>
           <input
             type='radio'
-            name='always'
+            name={EMAIL_REQUIRED_STATUS.ALWAYS}
             className='cursor-pointer h-5 w-5'
-            onChange={e => handleCheck(e, 'always')}
-            checked={radioInput.always}
+            onChange={e => handleCheck(e)}
+            checked={
+              WidgetConfigStore.config.value.email_required ===
+              EMAIL_REQUIRED_STATUS.ALWAYS
+            }
+            id={EMAIL_REQUIRED_STATUS.ALWAYS}
           />
-          <div className='ml-3'>
+          <label htmlFor={EMAIL_REQUIRED_STATUS.ALWAYS} className='ml-3'>
             <Text
               size='sm'
               className='text-neutral-900 font-inter text-md font-medium'
@@ -92,19 +73,26 @@ const RequireEmail = () => {
             <span className='font-normal text-[13px] leading-4 text-gray-400 tracking-[0.20px]'>
               Reduces conversation volume by around 30% on average
             </span>
-          </div>
+          </label>
         </label>
       </div>
       <div className='flex flex-col mb-4'>
         <label htmlFor='' className='flex items-start'>
           <input
             type='radio'
-            name='never'
+            name={EMAIL_REQUIRED_STATUS.NEVER}
             className='cursor-pointer h-5 w-5'
-            onChange={e => handleCheck(e, 'never')}
-            checked={radioInput.never}
+            onChange={e => handleCheck(e)}
+            checked={
+              WidgetConfigStore.config.value.email_required ===
+                EMAIL_REQUIRED_STATUS.NEVER ||
+              (typeof WidgetConfigStore.config.value.email_required ===
+                'undefined' &&
+                true)
+            }
+            id={EMAIL_REQUIRED_STATUS.NEVER}
           />
-          <div className='ml-3'>
+          <label htmlFor={EMAIL_REQUIRED_STATUS.NEVER} className='ml-3'>
             <Text
               size='sm'
               className='text-neutral-900 font-inter text-md font-medium'
@@ -114,15 +102,19 @@ const RequireEmail = () => {
             <span className='font-normal text-[13px] leading-4 text-gray-400 tracking-[0.20px]'>
               Will allow website visitors to start a conversation at any time
             </span>
-          </div>
+          </label>
         </label>
       </div>
       <div className='flex justify-end space-x-4'>
         <Button text='Cancel' variant='outline' />
         <Button
           onClick={handleSave}
-          loading={loading}
-          text={loading ? 'Saving' : 'Save and set live'}
+          loading={WidgetConfigStore.config.style.loading}
+          text={
+            WidgetConfigStore.config.style.loading
+              ? 'Saving'
+              : 'Save and set live'
+          }
           loadingText='Saving'
           size='sm'
           className='bg-[#1068EF]'
@@ -131,4 +123,4 @@ const RequireEmail = () => {
     </div>
   );
 };
-export default RequireEmail;
+export default observer(RequireEmail);

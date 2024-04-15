@@ -287,3 +287,41 @@ export const setCSSVariables = () => {
     );
   }
 };
+
+export const convertTime12to24 = (time12h: string) => {
+  const [time, modifier] = time12h.trim().replaceAll(/\s+/gi, ' ').split(' ');
+
+  let [hours, minutes] = time.split(':');
+
+  minutes = minutes.toString();
+
+  if (hours === '12') {
+    hours = '00';
+  }
+
+  if (modifier === 'PM') {
+    hours = (parseInt(hours, 10) + 12).toString();
+  }
+
+  return `${hours}:${minutes}`;
+};
+
+export function convertTo12Hour(oldFormatTime: string) {
+  const oldFormatTimeArray = oldFormatTime.split(':');
+
+  const HH = parseInt(oldFormatTimeArray[0]);
+  const min = oldFormatTimeArray[1];
+
+  const AMPM = HH >= 12 ? 'PM' : 'AM';
+
+  let hours;
+
+  if (HH == 0) {
+    hours = HH + 12;
+  } else if (HH > 12) {
+    hours = HH - 12;
+  } else {
+    hours = HH;
+  }
+  return hours + ':' + min + ' ' + AMPM;
+}
